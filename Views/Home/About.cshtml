@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5 border-bottom pb-3">About the Study Assistant Team</h1>
+
+    <div class="row mb-5">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-primary">Project Lead & Developer</h3>
+                    <p class="card-text"><strong>Name:</strong> Christodoulos Nikiforou</p>
+                    <p class="card-text"><strong>Role:</strong> AI and Business Analytics Student</p>                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h2 class="mb-4">Logical Data Model</h2>
+            <p class="text-muted mb-4">
+                Our application architecture ensures organized data storage and individual user privacy.
+            </p>
+
+            @* Requirement 2.2: Include the data model as an image. 
+               Ensure your image file is saved in wwwroot/images/
+            *@
+            <img src="~/images/erd.png"
+                 alt="Logical Data Model Diagram"
+                 class="img-fluid border rounded shadow-lg mb-4"
+                 style="max-width: 85%;">
+
+            <div class="text-start mt-3 px-md-5 bg-light p-4 rounded border">
+                <h4>How the Data Model Fits the Application</h4>
+                <p>The Study Assistant uses a relational structure to manage student materials:</p>
+                <ul>
+                    @* Relationship 1: User owns many Folders *@
+                    <li>
+                        <strong>User to Subject (1:N):</strong>
+                        A user (student) can have multiplr sunjects/folders, but each folder can belong to only 1 student.
+                    </li>
+                    @* Relationship 2: User owns many Files *@
+                    <li>
+                        <strong>User to Document (1:N):</strong>
+                        This ensures each document is linked to a specific student for private data access.
+                    </li>
+                    @* Relationship 3: Subject contains many Files *@
+                    <li>
+                        <strong>Subject to Document (1:N):</strong>
+                        This relationship organizes the library, allowing many documents to be filed under one subject.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <h3>Project Resources</h3>
+            <p>View our source code, commit history, and development progress:</p>
+            @* UPDATE: Replace with your actual GitHub repository URL *@
+            <a href="https://github.com/your-username/study-assistant"
+               class="btn btn-dark btn-lg"
+               target="_blank">
+                <i class="fab fa-github"></i> View GitHub Repository
+            </a>
+        </div>
+    </div>
+
+    <nav class="text-center mt-4 border-top pt-4">
+        <p class="text-muted">Explore other prototype features:</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary mx-2">Home Page</a>
+        <a asp-controller="Home" asp-action="DataVisualization" class="btn btn-outline-secondary mx-2">Data Charts</a>
+    </nav>
+</div>
