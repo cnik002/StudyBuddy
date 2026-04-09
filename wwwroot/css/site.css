@@ -29,3 +29,13 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.file-link:hover {
+    text-decoration: underline !important;
+    color: #0d6efd !important; 
+}
+
+tbody tr:hover {
+    background-color: rgba(0,0,0,0.02);
+    transition: 0.2s;
+}

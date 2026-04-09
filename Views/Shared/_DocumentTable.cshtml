@@ -7,23 +7,35 @@
                 <th>File Name</th>
                 <th>Date Added</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th class="text-end">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var doc in Model)
             {
                 <tr>
-                    <td><i class="fas @doc.IconClass"></i> @doc.Name</td>
+                    <td>
+                        <i class="fas @doc.IconClass me-2 text-secondary"></i>
+                        <a asp-action="DocumentView" asp-route-name="@doc.Name" class="text-decoration-none fw-bold text-dark file-link">
+                            @doc.Name
+                        </a>
+                    </td>
                     <td>@doc.DateAdded</td>
                     <td><span class="badge @doc.BadgeClass">@doc.Status</span></td>
-                    <td>
-                        <a href="#" class="text-primary me-2"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="text-warning me-2"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="text-danger"><i class="fas fa-trash"></i></a>
+                    <td class="text-end">
+                        <a href="#" class="text-warning me-3" onclick="openEditDocModal('@doc.Name', '@doc.Status')">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="#" class="text-danger" onclick="confirmDelete('@doc.Name')">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="~/js/studyhub.js"></script>
+}

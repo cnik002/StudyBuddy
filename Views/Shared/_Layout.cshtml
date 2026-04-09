@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/StudyBuddy.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -52,5 +53,176 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @* new file upload popup *@
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Upload New Study Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">File Select</label>
+                            <input type="file" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Categorize in Folder</label>
+                            <select class="form-select" id="folderDropdown" onchange="toggleNewFolderInput()">
+                                <option value="unfiled" selected>Unfiled</option>
+                                <option value="1">ISM 6225</option>
+                                <option value="2">Data Analytics</option>
+                                <option value="NEW">-- Create New Folder --</option>
+                            </select>
+                        </div>
+
+                        <div id="newFolderContainer" class="mt-3" style="display: none;">
+                            <label class="form-label text-primary fw-bold">New Folder Name</label>
+                            <input type="text" class="form-control border-primary" id="newFolderText" placeholder="e.g. ISM 6400">
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Set Status</label>
+                                <select class="form-select">
+                                    <option value="1">Draft</option>
+                                    <option value="2">Reviewed</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">File Type</label>
+                                <select class="form-select">
+                                    <option value="1">PDF</option>
+                                    <option value="2">DOCX</option>
+                                    <option value="3">Image</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Comments/Notes</label>
+                            <textarea class="form-control" rows="3" placeholder="Add initial study notes..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="showSuccess()">Save & Upload</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* new folder popup *@
+    <div class="modal fade" id="newFolderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Subject Folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Folder Name (e.g. ISM 6000)">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary w-100">Create Folder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* success popup*@
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content text-center p-4">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <i id="successIcon" class="fas fa-check-circle fa-4x text-success"></i>
+                    </div>
+                    <h4 id="successTitle">Success!</h4>
+                    <p id="successMessage" class="text-muted"></p>
+                    <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">Great!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-danger"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="fs-5">Are you sure you want to delete <strong id="deleteTargetName"></strong>?</p>
+                    <p class="text-muted small">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="executeDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="renameFolderModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Rename Folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">New Name</label>
+                        <input type="text" id="folderRenameInput" class="form-control" autofocus>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="executeRename()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editDocumentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Edit Document Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Document Name</label>
+                        <div class="input-group">
+                            <input type="text" id="editDocNameInput" class="form-control">
+                            <span class="input-group-text" id="fileExtensionLabel">.pdf</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="editDocStatus">
+                            <option value="Draft">Draft</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Reviewed">Reviewed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="executeDocEdit()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
+
+@section Scripts {
+    <script src="~/js/studyhub.js"></script>
+}

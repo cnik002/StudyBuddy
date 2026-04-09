@@ -1,0 +1,42 @@
+﻿<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Hub">Hub</a></li>
+            <li class="breadcrumb-item active">@ViewData["DocName"]</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-file-pdf text-danger me-2"></i> @ViewData["DocName"]</h2>
+
+        <div class="d-flex align-items-center gap-3">
+            <div class="me-2">
+                <a href="#" class="text-warning fs-5 me-3" title="Edit Document"
+                   onclick="openEditDocModal('@ViewData["DocName"]', 'Reviewed')">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a href="#" class="text-danger fs-5" title="Delete Document"
+                   onclick="confirmDelete('@ViewData["DocName"]')">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-outline-primary"><i class="fas fa-download"></i></button>
+                <button class="btn btn-outline-secondary"><i class="fas fa-print"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-dark rounded shadow-lg p-5 text-center text-white" style="min-height: 600px;">
+        <div class="py-5">
+            <i class="fas fa-file-pdf fa-5x mb-3 opacity-50"></i>
+            <h3>Document Preview</h3>
+            <p class="text-muted">Viewing: @ViewData["DocName"]</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/studyhub.js"></script>
+}

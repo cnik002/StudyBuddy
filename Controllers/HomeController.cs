@@ -43,11 +43,11 @@ namespace StudyBuddy.Controllers
             return View(folderFiles);
         }
 
-        // Ensure your other CRUD actions still point to their specific pages
-        public IActionResult Upload() => View();
-        public IActionResult ViewLibrary() => View();
-        public IActionResult Edit() => View();
-        public IActionResult Delete() => View();
+        public IActionResult DocumentView(string name)
+        {
+            ViewData["DocName"] = name ?? "Lecture_1.pdf";
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
