@@ -213,17 +213,18 @@ function executeRename() {
 
 let originalFileName = "";
 
-function openEditDocModal(fullFileName, currentStatus) {
+function openEditDocModal(fullFileName, currentStatus, currentSubject) {
     originalFileName = fullFileName;
 
-    // Split name and extension
     const lastDotIndex = fullFileName.lastIndexOf('.');
-    const namePart = fullFileName.substring(0, lastDotIndex);
-    const extPart = fullFileName.substring(lastDotIndex);
+    document.getElementById('editDocNameInput').value = fullFileName.substring(0, lastDotIndex);
+    document.getElementById('fileExtensionLabel').innerText = fullFileName.substring(lastDotIndex);
 
-    document.getElementById('editDocNameInput').value = namePart;
-    document.getElementById('fileExtensionLabel').innerText = extPart;
     document.getElementById('editDocStatus').value = currentStatus;
+
+    // We store the subject but don't necessarily need the user to edit it 
+    // unless they are moving the file (which we handle via the folder UI).
+    window.currentDocSubject = currentSubject || null;
 
     const modal = new bootstrap.Modal(document.getElementById('editDocumentModal'));
     modal.show();

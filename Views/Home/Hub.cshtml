@@ -16,8 +16,16 @@
 
     <h4 class="text-muted"><i class="fas fa-folder-open"></i> Subject Folders</h4>
     <div class="row mb-5">
-        <partial name="_FolderCard" model='(string)"ISM 6225"' />
-        <partial name="_FolderCard" model='(string)"Data Analytics"' />
+        @if (ViewBag.Folders != null)
+        {
+            @foreach (var folder in (List<FolderModel>)ViewBag.Folders)
+            {
+                <div class="col-md-4 mb-4">
+                    @* Pass folder.Name (string) instead of folder (object) *@
+                    <partial name="_FolderCard" model="folder.Name" />
+                </div>
+            }
+        }
     </div>
 
     <h4 class="text-muted"><i class="fas fa-file-alt"></i> Unfiled Documents</h4>

@@ -7,5 +7,6 @@
         public string Status { get; set; }
         public string IconClass { get; set; }
         public string BadgeClass { get; set; }
+        public string Subject { get; set; }
     }
 }

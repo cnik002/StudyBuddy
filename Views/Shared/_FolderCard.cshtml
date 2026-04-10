@@ -4,9 +4,12 @@
 }
 
 <div class="col-md-4 mb-4">
-    <div id="@cardId" class="card h-100 border-primary shadow-sm" style="background-color: rgba(13, 110, 253, 0.05);">
+    @* Added 'position-relative' so the stretched-link knows where to stop *@
+    <div id="@cardId" class="card h-100 border-primary shadow-sm position-relative folder-card-custom"
+         style="background-color: rgba(13, 110, 253, 0.05); transition: all 0.2s ease;">
 
-        <div class="dropdown position-absolute" style="top: 10px; right: 10px;">
+        @* Dropdown remains functional because it has a higher z-index *@
+        <div class="dropdown position-absolute" style="top: 10px; right: 10px; z-index: 10;">
             <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
@@ -35,13 +38,16 @@
             </ul>
         </div>
 
-        <div class="card-body text-center pt-4">
-            <div class="display-4 text-primary mb-2">
+        @* INCREASED PADDING (py-5) makes the div physically bigger *@
+        <div class="card-body text-center py-5">
+            <div class="display-4 text-primary mb-3">
                 <i class="fas fa-folder"></i>
             </div>
-            <h5 class="card-title">@Model</h5>
-            <p class="small text-muted">2 Documents</p>
-            <a asp-action="FolderView" asp-route-id="@Model" class="btn btn-sm btn-outline-secondary">Open</a>
+            <h4 class="card-title fw-bold">@Model</h4>
+            <p class="small text-muted mb-0">2 Documents</p>
+
+            @* 'stretched-link' makes the entire card clickable without breaking the dropdown *@
+            <a asp-action="FolderView" asp-route-folderName="@Model" class="stretched-link"></a>
         </div>
     </div>
 </div>

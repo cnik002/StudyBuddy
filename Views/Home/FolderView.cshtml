@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<StudyBuddy.Models.StudyDocument>
 
 @{
-    // This changes the browser tab title dynamically
-    ViewData["Title"] = ViewData["FolderName"];
+    // This safely grabs the name set in the Controller
+    var displayFolder = ViewData["FolderName"]?.ToString() ?? "Subject Folder";
+    ViewData["Title"] = displayFolder;
 }
 
 <div class="container mt-4">
@@ -19,7 +20,7 @@
         <button type="button" class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#uploadModal"
-                data-folder-name="@ViewData["FolderName"]">
+                data-folder-name="@displayFolder">
             <i class="fas fa-plus"></i> Upload to this Folder
         </button>
     </div>
