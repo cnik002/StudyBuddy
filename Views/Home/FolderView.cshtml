@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<StudyBuddy.Models.StudyDocument>
 
 @{
-    // This safely grabs the name set in the Controller
+    // grabs the name set in the Controller
     var displayFolder = ViewData["FolderName"]?.ToString() ?? "Subject Folder";
     ViewData["Title"] = displayFolder;
 }

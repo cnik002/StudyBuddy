@@ -13,58 +13,13 @@ function toggleNewFolderInput(dropdownId = 'folderDropdown', containerId = 'newF
     }
 }
 
-// Function to show success (Called by the Save button onclick)
-//function showSuccess() {
-//    const uploadModalEl = document.getElementById('uploadModal');
-//    if (uploadModalEl) {
-//        const modalInstance = bootstrap.Modal.getInstance(uploadModalEl);
-//        if (modalInstance) {
-//            modalInstance.hide();
-//        }
-//    }
-
-//    // Small delay to let the backdrop fade out before showing the next modal
-//    setTimeout(function () {
-//        const successModalEl = document.getElementById('successModal');
-//        if (successModalEl) {
-//            const successModal = new bootstrap.Modal(successModalEl);
-//            successModal.show();
-//        }
-//    }, 400);
-//}
-
-//// Function to handle the Folder Locking when the modal opens
-//document.addEventListener('show.bs.modal', function (event) {
-//    if (event.target.id === 'uploadModal') {
-//        const button = event.relatedTarget;
-//        const folderName = button.getAttribute('data-folder-name');
-//        const dropdown = document.getElementById('folderDropdown');
-
-//        if (dropdown) {
-//            if (folderName) {
-//                // Set the dropdown to match the folder name and disable it
-//                for (let i = 0; i < dropdown.options.length; i++) {
-//                    if (dropdown.options[i].text.trim() === folderName.trim()) {
-//                        dropdown.selectedIndex = i;
-//                        break;
-//                    }
-//                }
-//                dropdown.disabled = true;
-//            } else {
-//                // Reset for the general Hub upload
-//                dropdown.disabled = false;
-//                dropdown.value = "unfiled";
-//            }
-//        }
-//    }
-//});
-
+// success popup to inform user after each crud action
 function showSuccess() {
     const uploadModalEl = document.getElementById('uploadModal');
     bootstrap.Modal.getInstance(uploadModalEl).hide();
 
     setTimeout(() => {
-        // KEEP THIS: Specific to file uploads
+        // Specific to file uploads
         showStatusModal(
             "Upload Successful!", 
             "Your document has been categorized and added to the Study Hub.", 
@@ -109,7 +64,7 @@ document.addEventListener('show.bs.modal', function (event) {
 
 let elementToDelete = "";
 
-// 1. Dynamic Success Message Logic
+// Dynamic Success Message Logic
 function showStatusModal(title, message, iconClass = "fa-check-circle", iconColor = "text-success") {
     document.getElementById('successTitle').innerText = title;
     document.getElementById('successMessage').innerText = message;
@@ -119,7 +74,7 @@ function showStatusModal(title, message, iconClass = "fa-check-circle", iconColo
     successModal.show();
 }
 
-// 2. Updated Delete Logic
+// Delete confirmation popup
 function confirmDelete(name) {
     elementToDelete = name;
     document.getElementById('deleteTargetName').innerText = name;
@@ -132,7 +87,7 @@ function executeDelete() {
     bootstrap.Modal.getInstance(delModalEl).hide();
 
     setTimeout(() => {
-        // UPDATE THIS: Custom message for deletion
+        // Custom message for deletion
         showStatusModal(
             "Item Deleted",
             `${elementToDelete} has been successfully removed.`,
@@ -203,7 +158,7 @@ function executeRename() {
     bootstrap.Modal.getInstance(modalEl).hide();
 
     setTimeout(() => {
-        // UPDATE THIS: Custom message for renaming
+        // Custom message for renaming
         showStatusModal(
             "Changes Saved",
             `Successfully renamed to "${newName}".`,
@@ -215,6 +170,7 @@ function executeRename() {
 
 let originalFileName = "";
 
+// edit popup
 function openEditDocModal(fullFileName, currentStatus, currentSubject) {
     originalFileName = fullFileName;
 
@@ -225,13 +181,14 @@ function openEditDocModal(fullFileName, currentStatus, currentSubject) {
     document.getElementById('editDocStatus').value = currentStatus;
 
     // We store the subject but don't necessarily need the user to edit it 
-    // unless they are moving the file (which we handle via the folder UI).
+    // unless they are moving the file (which is handled via the folder UI).
     window.currentDocSubject = currentSubject || null;
 
     const modal = new bootstrap.Modal(document.getElementById('editDocumentModal'));
     modal.show();
 }
 
+// edit popup logic
 function executeDocEdit() {
     const newName = document.getElementById('editDocNameInput').value;
     const extension = document.getElementById('fileExtensionLabel').innerText;

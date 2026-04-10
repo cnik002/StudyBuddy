@@ -1,51 +1,66 @@
 ﻿@model string
 @{
     var cardId = "folder-" + Model.Replace(" ", "");
+
+    // grab the count from the ViewBag passed from the Controller
+    var counts = ViewBag.FolderCounts as Dictionary<string, int>;
+    int docCount = counts != null && counts.ContainsKey(Model) ? counts[Model] : 0;
 }
 
-@* Added 'position-relative' so the stretched-link knows where to stop *@
 <div id="@cardId" class="card h-100 border-primary shadow-sm position-relative folder-card-custom"
-        style="background-color: rgba(13, 110, 253, 0.05); transition: all 0.2s ease;">
+     style="background-color: rgba(13, 110, 253, 0.05); transition: all 0.2s ease;">
 
-    @* Dropdown remains functional because it has a higher z-index *@
+    @* Dropdown Menu *@
     <div class="dropdown position-absolute" style="top: 10px; right: 10px; z-index: 10;">
         <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
             <i class="fas fa-ellipsis-v"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-3" style="min-width: 200px;">
-            <li><a class="dropdown-item p-0 mb-2" href="#" onclick="openRenameModal('@Model')"><i class="fas fa-edit me-2 text-warning"></i> Rename</a></li>
 
+            <li>
+                <a class="dropdown-item p-0 mb-2" href="#" onclick="openRenameModal('@Model'); return false;">
+                    <i class="fas fa-edit me-2 text-warning"></i> Rename
+                </a>
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
             <li class="small text-muted mb-2">Change Color</li>
+            @* color list for folders *@
             <li>
                 <div class="d-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 5px;">
-                    <div class="rounded-circle bg-danger" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'danger')" title="Red"></div>
-                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #fd7e14; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'orange')" title="Orange"></div>
-                    <div class="rounded-circle bg-warning" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'warning')" title="Yellow"></div>
-                        
-                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #6f42c1; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'purple')" title="Purple"></div>
-                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #d63384; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'pink')" title="Pink"></div>
-                    <div class="rounded-circle bg-success" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'success')" title="Green"></div>
-                        
-                    <div class="rounded-circle bg-primary" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'primary')" title="Blue"></div>
-                    <div class="rounded-circle bg-info" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'info')" title="Cyan"></div>
-                    <div class="rounded-circle bg-secondary" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'secondary')" title="Grey"></div>
+                    <div class="rounded-circle bg-danger" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'danger'); event.stopPropagation();" title="Red"></div>
+                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #fd7e14; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'orange'); event.stopPropagation();" title="Orange"></div>
+                    <div class="rounded-circle bg-warning" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'warning'); event.stopPropagation();" title="Yellow"></div>
+
+                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #6f42c1; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'purple'); event.stopPropagation();" title="Purple"></div>
+                    <div class="rounded-circle" style="width:24px; height:24px; cursor:pointer; background-color: #d63384; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'pink'); event.stopPropagation();" title="Pink"></div>
+                    <div class="rounded-circle bg-success" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'success'); event.stopPropagation();" title="Green"></div>
+
+                    <div class="rounded-circle bg-primary" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'primary'); event.stopPropagation();" title="Blue"></div>
+                    <div class="rounded-circle bg-info" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'info'); event.stopPropagation();" title="Cyan"></div>
+                    <div class="rounded-circle bg-secondary" style="width:24px; height:24px; cursor:pointer; border: 1px solid #ddd;" onclick="changeFolderColor('@cardId', 'secondary'); event.stopPropagation();" title="Grey"></div>
                 </div>
             </li>
 
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger p-0" href="#" onclick="confirmDelete('@Model')"><i class="fas fa-trash-alt me-2"></i> Delete Folder</a></li>
+            <li>
+                <a class="dropdown-item text-danger p-0" href="#" onclick="confirmDelete('@Model'); return false;">
+                    <i class="fas fa-trash-alt me-2"></i> Delete Folder
+                </a>
+            </li>
         </ul>
     </div>
 
-    @* INCREASED PADDING (py-5) makes the div physically bigger *@
+    @* Card Content *@
     <div class="card-body text-center py-5 px-4">
         <div class="display-4 text-primary mb-3">
             <i class="fas fa-folder"></i>
         </div>
-        <h4 class="card-title fw-bold">@Model</h4>
-        <p class="small text-muted mb-0">2 Documents</p>
 
-        @* 'stretched-link' makes the entire card clickable without breaking the dropdown *@
-        <a asp-action="FolderView" asp-route-folderName="@Model" class="stretched-link"></a>
+        <h4 class="card-title fw-bold">@Model</h4>
+        <p class="small text-muted mb-0">@docCount Documents</p>
+
+        @* Stretched Link safely contained inside the card *@
+        <a asp-controller="Home" asp-action="FolderView" asp-route-folderName="@Model" class="stretched-link"></a>
     </div>
 </div>
