@@ -1,13 +1,15 @@
 ﻿// Function to show/hide the "New Folder" name field
-function toggleNewFolderInput() {
-    var dropdown = document.getElementById("folderDropdown");
-    var container = document.getElementById("newFolderContainer");
+function toggleNewFolderInput(dropdownId = 'folderDropdown', containerId = 'newFolderContainer') {
+    var dropdown = document.getElementById(dropdownId);
+    var container = document.getElementById(containerId);
 
-    // Check if "Create New Folder" (value="NEW") is selected
-    if (dropdown.value === "NEW") {
-        container.style.display = "block";
-    } else {
-        container.style.display = "none";
+    if (dropdown && container) {
+        // Check if "Create New Subject" (value="NEW") is selected
+        if (dropdown.value === "NEW") {
+            container.style.display = "block";
+        } else {
+            container.style.display = "none";
+        }
     }
 }
 

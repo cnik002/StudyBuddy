@@ -72,16 +72,23 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Subject Folder</label>
-                            <select class="form-select" id="uploadSubject">
-                                <option value="Unfiled" selected>Unfiled (General)</option>
+                            <select class="form-select" id="folderDropdown" onchange="toggleNewFolderInput()">
+                                <option value="unfiled" selected>Unfiled (General)</option>
                                 <option value="ISM 6225">ISM 6225</option>
                                 <option value="ISM 6419">ISM 6419</option>
                                 <option value="FIN 6406">FIN 6406</option>
                                 <option value="MAR 6815">MAR 6815</option>
                                 <option value="QMB 6305">QMB 6305</option>
+                                <option value="NEW" class="fw-bold text-primary">+ Create New Subject</option>
                             </select>
                         </div>
-                        <div class="mb-3">
+
+                        <div id="newFolderContainer" style="display: none;" class="mt-2">
+                            <label class="form-label small text-muted">New Subject Name</label>
+                            <input type="text" class="form-control" placeholder="e.g. ACG 2021">
+                        </div>
+
+                        <div class="mb-3 mt-3">
                             <label class="form-label">Initial Status</label>
                             <select class="form-select" id="uploadStatus">
                                 <option value="Draft">Draft</option>
@@ -116,15 +123,22 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Subject</label>
-                        <select class="form-select" id="editDocSubject">
+                        <select class="form-select" id="editDocSubject" onchange="toggleNewFolderInput('editDocSubject', 'editNewSubjectContainer')">
                             <option value="Unfiled">Unfiled</option>
                             <option value="ISM 6225">ISM 6225</option>
                             <option value="ISM 6419">ISM 6419</option>
                             <option value="FIN 6406">FIN 6406</option>
                             <option value="MAR 6815">MAR 6815</option>
                             <option value="QMB 6305">QMB 6305</option>
+                            <option value="NEW" class="fw-bold text-primary">+ Create New Subject</option>
                         </select>
                     </div>
+
+                    <div id="editNewSubjectContainer" style="display: none;" class="mt-2">
+                        <label class="form-label small text-muted">New Subject Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. ACG 2021">
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Status</label>
                         <select class="form-select" id="editDocStatus">
@@ -192,6 +206,27 @@
                     <h4 id="successTitle">Success!</h4>
                     <p id="successMessage" class="text-muted"></p>
                     <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">Great!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newFolderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title">Create New Folder</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Folder / Subject Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. ACG 2021">
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="showStatusModal('Folder Created', 'Your new subject folder is ready.', 'fa-folder-plus', 'text-success')">Create Folder</button>
                 </div>
             </div>
         </div>
